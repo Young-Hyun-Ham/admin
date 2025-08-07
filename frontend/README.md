@@ -67,6 +67,7 @@ export default tseslint.config([
   },
 ])
 ```
+```
 # 기본 구조
 src/
 ├── App.tsx               # <Admin> 컴포넌트 위치
@@ -74,3 +75,4 @@ src/
 ├── components/LoginPage.tsx # 커스텀 로그인 UI
 ├── store/authStore.ts    # Zustand 로그인 상태
 ├── index.tsx             # 루트 엔트리 포인트
+```
