@@ -1,0 +1,18 @@
+# FastAPI 및 서버 실행
+fastapi
+uvicorn[standard]
+
+# HTTP multipart/form-data 형식을 처리하기 위한 파이썬 패키지
+python-multipart
+
+# JWT 인증 관련
+python-jose[cryptography]
+passlib[bcrypt]
+
+# PostgreSQL 연동 (Async SQLAlchemy)
+sqlalchemy
+asyncpg
+psycopg2-binary  # 선택적: DB 초기 세팅, CLI 툴에서 사용 가능
+
+# 환경변수 관리
+python-dotenv
