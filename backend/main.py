@@ -1,9 +1,9 @@
-from . import logger
+from backend import logger
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-from routers.v1 import auth
+from backend.routers.v1 import auth
 from dotenv import load_dotenv
-from routers.v1 import v1_routers
+from backend.routers.v1 import v1_routers
 import os
 
 logger.info("FastAPI 서버 시작됨")
@@ -24,6 +24,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],                     # OPTIONS 포함 모든 HTTP 메서드 허용
     allow_headers=["*"],                     # 모든 헤더 허용
+    expose_headers=["Content-Range"], 
 )
 
 # 🔹 v1 라우터 전부 등록

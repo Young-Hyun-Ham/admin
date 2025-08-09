@@ -1,31 +1,32 @@
 import type { AuthProvider } from 'react-admin';
 import { useAuthStore } from '../store/authStore';
+import { api } from '../api/axios';
+import type { AxiosResponse } from 'axios';
+
+interface resLogin extends AxiosResponse {
+  data: {access_token: string, token_type: string}
+};
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const response = await fetch("http://localhost:8000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-    });
+    const response: resLogin = await api.post("/v1/api/auth/login", { email, password })
 
-    if (!response.ok) {
-        throw new Error("로그인 실패");
+    if (response.status !== 200) {
+      throw new Error("로그인 실패");
     }
 
-    const { token, email: name } = await response.json();
-    localStorage.setItem("token", token);
-    localStorage.setItem("email", name);
-    useAuthStore.getState().login(name, token);
-    },
+    const { access_token, token_type } = await response.data;
+    localStorage.setItem("token", access_token);
+    localStorage.setItem("type", token_type);
+    localStorage.setItem("email", email);
+    useAuthStore.setState({token: access_token, isAuthenticated: true})
+  },
   logout: () => {
     useAuthStore.getState().logout();
     return Promise.resolve();
   },
   checkAuth: () => {
-    console.log('[authProvider] checkAuth: token =qqqq');
     const token = useAuthStore.getState().token;
-    console.log('[authProvider] checkAuth: token =', token);
     return token ? Promise.resolve() : Promise.reject();
   },
   checkError: () => Promise.resolve(),
