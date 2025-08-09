@@ -15,8 +15,42 @@ pip install fastapi uvicorn
 선택적으로 `requirements.txt` 파일을 만들어서 다음 내용을 추가할 수 있습니다:
 
 ```
-fastapi
-uvicorn
+# FastAPI 웹 프레임워크
+fastapi==0.111.0
+
+# ASGI 서버 (FastAPI 실행용)
+uvicorn[standard]==0.30.1
+
+# 데이터베이스 ORM 라이브러리
+SQLAlchemy==2.0.31
+
+# PostgreSQL 데이터베이스 드라이버
+psycopg2-binary==2.9.9
+
+# 환경변수(.env) 관리
+python-dotenv==1.0.1
+
+# 비밀번호 해싱 및 검증 라이브러리 (bcrypt 포함)
+passlib[bcrypt]==1.7.4
+bcrypt==3.2.2   # Passlib과 호환되는 안정 버전
+
+# 데이터 유효성 검사 라이브러리 (FastAPI에서 사용)
+pydantic==2.7.1
+pydantic-settings==2.2.1
+
+# (선택) 로그 출력 향상 라이브러리
+loguru==0.7.2
+
+# AI ( langchain, langsmith[추적] )
+openai
+langsmith
+langchain
+langchain-community
+langchain-openai
+langchain-teddynote
+
+# PostgreSQL 백터 사용을 위한 확장 라이브러리
+pgvector
 ```
 
 그 후:
@@ -53,14 +87,29 @@ backend/
 │   ├── jwt.py              # JWT 생성/검증 유틸
 │   └── dependencies.py     # 현재 사용자 확인
 ├── crud/
-│   ├── user_crud.py        # 로그인 검증 등 DB 연동
+│   └── user_crud.py        # 로그인 검증 등 DB 연동
 ├── models/
-│   ├── user.py             # SQLAlchemy 모델
+│   └── user.py             # SQLAlchemy 모델
 ├── schemas/
-│   ├── user_schema.py      # Pydantic 모델
+│   └── user_schema.py      # Pydantic 모델
 ├── routers/
-│   ├── auth.py             # 로그인 엔드포인트
+│   └── auth.py             # 로그인 엔드포인트
 ├── database.py
 ├── main.py
+└── .env
+
+# AI CHAT 디렉토리 초기 구조
+backend/
+├── app/                    # AI CHAT 관련
+│   ├── routes/
+│   │   └── chat.py         
+│   │   └── docs.py         
+│   ├── chat_service.py     # 채팅 서비스 로직
+│   ├── config.py           
+│   ├── database.py         # 확장/테이블 준비
+│   ├── main.py             
+│   ├── models.py           # SQLAlchemy 모델
+│   ├── reg_service.py      #
+│   └── schemas.py          # Pydantic 모델
 └── .env
 ```
