@@ -41,7 +41,7 @@ uvicorn main:app --reload
 - ReDoc 문서: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
-
+```
 # pip을 최신 버전으로 업그레이드
 python -m pip install --upgrade pip
 # requirements.txt에 정의된 모든 패키지를 설치
@@ -63,3 +63,4 @@ backend/
 ├── database.py
 ├── main.py
 └── .env
+```
