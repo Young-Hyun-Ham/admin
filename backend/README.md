@@ -30,86 +30,87 @@ psycopg2-binary==2.9.9
 # 환경변수(.env) 관리
 python-dotenv==1.0.1
 
-# 비밀번호 해싱 및 검증 라이브러리 (bcrypt 포함)
-passlib[bcrypt]==1.7.4
-bcrypt==3.2.2   # Passlib과 호환되는 안정 버전
 
-# 데이터 유효성 검사 라이브러리 (FastAPI에서 사용)
-pydantic==2.7.1
-pydantic-settings==2.2.1
+# React Admin Backend
 
-# (선택) 로그 출력 향상 라이브러리
-loguru==0.7.2
+이 프로젝트는 React-Admin 프론트엔드와 연동되는 Node.js 기반의 백엔드입니다.
 
-# AI ( langchain, langsmith[추적] )
-openai
-langsmith
-langchain
-langchain-community
-langchain-openai
-langchain-teddynote
+## 폴더 구조
 
-# PostgreSQL 백터 사용을 위한 확장 라이브러리
-pgvector
+```
+backend/
+├── src/                   # 주요 소스 코드
+│   ├── controllers/       # API 컨트롤러
+│   ├── models/            # DB 모델
+│   ├── services/          # 비즈니스 로직
+│   ├── routes/            # 라우터
+│   └── index.js           # 서버 진입점
+├── package.json           # 프로젝트 설정
+├── Dockerfile             # 도커 설정
+├── .env                   # 환경 변수 파일
+├── README.md              # 프로젝트 설명
+└── .env
 ```
 
-그 후:
+## 개발 환경 설정
 
-```bash
-pip install -r requirements.txt
-```
+1. 의존성 설치
+	```bash
+	npm install
+	```
+
+2. 환경 변수 설정
+	`.env` 파일을 생성하여 DB 연결 정보 등 환경 변수를 설정합니다.
+	예시:
+	```env
+	DB_HOST=localhost
+	DB_PORT=5432
+	DB_USER=youruser
+	DB_PASS=yourpassword
+	DB_NAME=yourdb
+	PORT=5003
+	```
+
+3. 개발 서버 실행
+	```bash
+	npm start
+	```
+	기본 포트는 5003입니다. (환경 변수에서 변경 가능)
+
+4. DB 마이그레이션 및 시드
+	```bash
+	npm run migrate
+	npm run seed
+	```
+	(스크립트가 존재할 경우)
+
+5. 도커로 실행
+	```bash
+	docker build -t react-admin-backend .
+	docker run -p 5003:5003 --env-file .env react-admin-backend
+	```
+
+## 주요 라이브러리
+
+- [Express](https://expressjs.com/) : Node.js 웹 프레임워크
+- [Sequelize](https://sequelize.org/) 또는 [TypeORM](https://typeorm.io/) : ORM
+- [dotenv](https://github.com/motdotla/dotenv) : 환경 변수 관리
+- [pg](https://node-postgres.com/) : PostgreSQL 클라이언트
+
+## API 엔드포인트 예시
+
+- `GET /api/{resource}` : 목록 조회
+- `GET /api/{resource}/{id}` : 단일 항목 조회
+- `POST /api/{resource}` : 생성
+- `PUT /api/{resource}/{id}` : 수정
+- `DELETE /api/{resource}/{id}` : 삭제
+
+## 기타
+
+- CORS 설정 필요 시 [cors](https://github.com/expressjs/cors) 미들웨어 사용
+- 에러 핸들링 및 로깅을 위한 [morgan](https://github.com/expressjs/morgan) 등 활용
 
 ---
 
-## 🚀 실행 방법
-
-다음 명령어로 서버를 실행합니다:
-
-```bash
-uvicorn main:app --reload
-```
-
-서버가 실행되면 아래 주소로 접속할 수 있습니다:
-
-- Swagger 문서: [http://localhost:8000/docs](http://localhost:8000/docs)
-- ReDoc 문서: [http://localhost:8000/redoc](http://localhost:8000/redoc)
-
----
-```
-# pip을 최신 버전으로 업그레이드
-python -m pip install --upgrade pip
-# requirements.txt에 정의된 모든 패키지를 설치
-python -m pip install -r requirements.txt
-
-# 디렉토리 초기 구조
-backend/
-├── auth/
-│   ├── jwt.py              # JWT 생성/검증 유틸
-│   └── dependencies.py     # 현재 사용자 확인
-├── crud/
-│   └── user_crud.py        # 로그인 검증 등 DB 연동
-├── models/
-│   └── user.py             # SQLAlchemy 모델
-├── schemas/
-│   └── user_schema.py      # Pydantic 모델
-├── routers/
-│   └── auth.py             # 로그인 엔드포인트
-├── database.py
-├── main.py
-└── .env
-
-# AI CHAT 디렉토리 초기 구조
-backend/
-├── app/                    # AI CHAT 관련
-│   ├── routes/
-│   │   └── chat.py         
-│   │   └── docs.py         
-│   ├── chat_service.py     # 채팅 서비스 로직
-│   ├── config.py           
-│   ├── database.py         # 확장/테이블 준비
-│   ├── main.py             
-│   ├── models.py           # SQLAlchemy 모델
-│   ├── reg_service.py      #
-│   └── schemas.py          # Pydantic 모델
-└── .env
+프로젝트 구조와 환경 설정에 대해 궁금한 점이 있으면 언제든 문의해 주세요.
 ```
