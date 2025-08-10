@@ -1,3 +1,5 @@
+// src/admin/components/ChatInput.tsx
+
 // 1. react에서 'forwardRef'를 추가로 import 합니다.
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { Box, TextField, IconButton, useTheme } from '@mui/material';

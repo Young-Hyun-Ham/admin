@@ -13,7 +13,7 @@ DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
 # ✅ 비동기 PostgreSQL URL 구성
-DATABASE_URL = f"postgresql+asyncpg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # ✅ 비동기 엔진 생성
 engine = create_async_engine(DATABASE_URL, echo=True)

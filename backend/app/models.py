@@ -2,6 +2,7 @@ from sqlalchemy import Column, BigInteger, DateTime, Integer, String, Text, TIME
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from .database import Base
+from pgvector.sqlalchemy import Vector
 
 class Conversation(Base):
     __tablename__ = "conversations"
@@ -15,9 +16,11 @@ class Document(Base):
     __tablename__ = "documents"
     id = Column(UUID(as_uuid=True), primary_key=True)
     title = Column(Text, nullable=False)
+    content = Column(Text, nullable=False)
     source_path = Column(Text)
     mime_type = Column(Text)
     size_bytes = Column(BigInteger)
+    embedding = Column(Vector(1536))  # pgvector 임베딩 컬럼 추가
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     chunks = relationship("Chunk", backref="document", cascade="all, delete-orphan")

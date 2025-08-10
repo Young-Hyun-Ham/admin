@@ -26,7 +26,7 @@ class ChatMessage(BaseModel):
 
 class ChatStreamRequest(BaseModel):
     messages: List[ChatMessage]
-    top_k: int = 5  # 옵션
+    top_k: Optional[int] = 5  # 옵션
 
 class ChatResponse(BaseModel):
     answer: str

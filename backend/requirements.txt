@@ -6,6 +6,7 @@ uvicorn[standard]==0.30.1
 
 # 데이터베이스 ORM 라이브러리
 SQLAlchemy==2.0.31
+asyncpg==0.30.0
 
 # PostgreSQL 데이터베이스 드라이버
 psycopg2-binary==2.9.9

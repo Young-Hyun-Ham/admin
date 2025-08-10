@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from ..schemas import ChatStreamRequest
-from ..chat_service import stream_openai_chat, log_to_langsmith
+from ..chat_service import stream_openai_chat
 from ..rag_service import search_similar_docs
 from ..models import Conversation
 from ..database import get_session
@@ -58,13 +58,6 @@ async def chat_stream(req: ChatStreamRequest, db: AsyncSession = Depends(get_ses
             # 6) assistant 저장 + 커밋
             db.add(Conversation(role="assistant", content=assistant_reply))
             await db.commit()
-
-            # 7) LangSmith 로깅
-            try:
-                log_to_langsmith(messages=all_messages, response=assistant_reply)
-            except Exception:
-                # 로깅 실패는 스트림 끊지 않음
-                print("LangSmith log error:\n", traceback.format_exc())
 
         except Exception:
             # ✅ 여기서 예외를 먹고, 에러 메시지를 마지막으로 흘려보낸 뒤 종료

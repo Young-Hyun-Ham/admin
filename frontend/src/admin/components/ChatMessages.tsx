@@ -1,3 +1,5 @@
+// src/admin/components/ChatMessages.tsx
+
 import { Box, Paper, Typography } from '@mui/material';
 import type { ChatMessage } from '../types';
 
