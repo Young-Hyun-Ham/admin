@@ -6,18 +6,24 @@ import {
   DeleteButton,
   SimpleList,
   FunctionField,
+  type ListProps,
 } from "react-admin";
 import { CustomPagination } from "./../components/CustomPagination";
 import { Button, Pagination } from 'react-admin';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
 
-export const BoardList = () => {
+type Perm = 'admin' | 'user' | 'guest';
+type Props = ListProps & { permissions: Perm };
+
+export const BoardList: React.FC<Props> = ({ permissions, ...props }) => {
   const navigate = useNavigate();
 
   const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
   return (
-    <List 
+  <>
+    {/* <div>{`${JSON.stringify(props)} :: ${permissions}`}</div> */}
+    <List {...props}
       perPage={10}
       pagination={
         /*<CustomPagination />*/
@@ -79,5 +85,6 @@ export const BoardList = () => {
         </Datagrid>
       )}
     </List>
+  </>
   );
 };

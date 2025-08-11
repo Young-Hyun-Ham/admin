@@ -41,9 +41,16 @@ async def login(data: LoginRequest, db: AsyncSession = Depends(get_db)):
     if not user or not pwd_context.verify(data.psasword, user.password):
         raise HTTPException(status_code=401, detail="아이디 또는 비밀번호가 잘못되었습니다.")
 
+    # 권한 테스트
+    if user == "hyh8414":
+        roles=["guest", "admin", "user"]
+    else:
+        roles=["guest"]
+
     # 로그인 성공 후
     access_token = create_access_token(
         subject=user.email,  # 또는 user.id
+        roles=roles,
         extra={"uid": user.id, "username": user.username}
     )
     return {"access_token": access_token, "token_type": "bearer"}
@@ -77,9 +84,17 @@ async def login_proxy(payload: LoginRequest):
     # 성공시 외부 응답을 검증 모델(LoginProxyResponse)에 맞춰 반환
     try:
         data = resp.json()
+        
+        # 권한 테스트
+        if data["email"] == "hyh8414":
+            roles=["guest", "admin", "user"]
+        else:
+            roles=["guest"]
+
         # 로그인 성공 후
         access_token = create_access_token(
             subject=data["email"],  # 또는 user.id
+            roles=roles,
             extra={"uid": data["email"], "username": data["username"]}
         )
 

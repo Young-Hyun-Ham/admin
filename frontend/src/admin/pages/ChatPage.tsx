@@ -3,7 +3,7 @@ import { Title, Authenticated } from 'react-admin';
 import { useMemo, useRef, useState } from 'react';
 import type { ChatMessage } from '../types';
 import ChatMessages from '../components/ChatMessages';
-import ChatInput from '../components/ChatInput';
+import ChatInput, { type ChatInputRef } from '../components/ChatInput';
 import { readToText, streamChatCompletion } from '../api/chatClient';
 
 export default function ChatPage() {
@@ -17,6 +17,7 @@ export default function ChatPage() {
   ]));
   const [isStreaming, setIsStreaming] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const inputRef = useRef<ChatInputRef>(null);
 
   const historyForLLM = useMemo(
     () => messages
@@ -62,6 +63,7 @@ export default function ChatPage() {
     } finally {
       setIsStreaming(false);
       abortRef.current = null;
+      requestAnimationFrame(() => inputRef.current?.focus());
     }
   };
 
@@ -107,7 +109,7 @@ export default function ChatPage() {
             bottom: 0, left: 0, right: 0,
             pointerEvents: 'auto',
           }}>
-            <ChatInput onSend={send} disabled={isStreaming} />
+            <ChatInput ref={inputRef} onSend={send} disabled={isStreaming} />
           </Box>
             
         </CardContent>

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pathlib import Path
+from typing import Sequence, Any, Optional, Dict
 
 # .env 로드 (backend/.env를 확실히 찍어서 로드)
 load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
@@ -20,9 +21,18 @@ if not SECRET_KEY:
 # Swagger용 토큰 발급 엔드포인트 경로를 실제와 일치
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v1/api/auth/login")
 
-def create_access_token(subject: str, extra: dict | None = None) -> str:
+def create_access_token(
+    subject: str,
+    *,                                      # 이 표시는 이 뒤의 인자들은 "키워드 전용"이라는 뜻
+    roles: Optional[Sequence[str]] = None,  # 다중 롤(선택)
+    extra: Optional[Dict[str, Any]] = None
+) -> str:
     """반드시 'sub'에 사용자 식별자(이메일/ID)를 넣어 발급"""
-    to_encode = {"sub": str(subject)}
+    to_encode: Dict[str, Any] = {"sub": str(subject)}
+    
+    if roles:
+        to_encode["roles"] = list(roles)
+        
     if extra:
         to_encode.update(extra)
 
@@ -44,6 +54,10 @@ def verify_token(token: str = Depends(oauth2_scheme)) -> dict:
         if not sub:
             raise cred_exc
         # 필요하면 사용자 조회에 쓸 정보만 남겨 반환
-        return {"sub": sub, **{k: v for k, v in payload.items() if k not in {"sub", "exp"}}}
+        # return {"sub": sub, **{k: v for k, v in payload.items() if k not in {"sub", "exp"}}}
+        return {
+            "sub": sub,
+            "roles": payload.get("roles"),
+        }
     except JWTError:
         raise cred_exc

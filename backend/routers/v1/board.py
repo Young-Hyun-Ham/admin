@@ -7,7 +7,10 @@ import json
 from backend.models.board import Board
 from backend.database import get_db
 
-router = APIRouter(prefix="/api/board", tags=["board"])
+router = APIRouter(
+    prefix="/api/board",
+    tags=["board"],
+    )
 
 @router.get("/")
 async def get_board_list(

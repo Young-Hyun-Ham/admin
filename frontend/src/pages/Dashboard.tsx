@@ -9,6 +9,7 @@ const mask = (t: string) => {
 };
 
 export default function Dashboard() {
+  
   const [token, setToken] = useState<string | null>(null);
   const [type, setType] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);

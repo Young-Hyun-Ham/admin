@@ -5,11 +5,13 @@ export async function streamChatCompletion(
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[],
   signal?: AbortSignal
 ): Promise<ReadableStreamDefaultReader<Uint8Array>> {
-  console.log("content ================>", JSON.stringify({ messages }));
-  const res = await fetch('http://127.0.0.1:8000/chat/stream', {
+  const res = await fetch('http://127.0.0.1:8000/v1/chat/stream', {
     method: 'POST',
     body: JSON.stringify({ messages }),
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `${localStorage.getItem('type')||'Bearer'} ${localStorage.getItem('token')}`
+     },
     signal
   });
 
@@ -18,20 +20,6 @@ export async function streamChatCompletion(
   }
   return res.body.getReader();
 }
-
-// export async function readToText(
-//   reader: ReadableStreamDefaultReader<Uint8Array>,
-//   onChunk: (text: string) => void
-// ) {
-//   const decoder = new TextDecoder('utf-8');
-//   let done = false;
-//   while (!done) {
-//     const result = await reader.read();
-//     done = result.done || false;
-//     const chunk = result.value ? decoder.decode(result.value, { stream: true }) : '';
-//     if (chunk) onChunk(chunk);
-//   }
-// }
 
 export async function readToText(
   reader: ReadableStreamDefaultReader<Uint8Array>,

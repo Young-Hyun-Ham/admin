@@ -26,16 +26,18 @@ const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({ onSend, disabled }
     inputRef.current?.focus();
   }, []);
 
+  // ✅ 전송 종료 등으로 disabled=false가 되면 다시 포커스
+  useEffect(() => {
+    if (!disabled) {
+      const id = requestAnimationFrame(() => inputRef.current?.focus());
+      return () => cancelAnimationFrame(id);
+    }
+  }, [disabled]);
+
   const handleSend = () => {
     if (text.trim()) {
       onSend(text);
       setText('');
-
-      // React가 `setText('')`로 인한 모든 렌더링 작업을 마친 후에, 브라우저가 다음 이벤트 루프에서 포커스 명령을 실행하게 됩니다.
-      // 이렇게 하면 포커스가 유실될 가능성이 거의 사라집니다.
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 10);
     }
   };
 

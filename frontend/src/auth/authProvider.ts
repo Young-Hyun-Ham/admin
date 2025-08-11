@@ -2,6 +2,9 @@ import type { AuthProvider } from 'react-admin';
 import { useAuthStore } from '../store/authStore';
 import { api } from '../api/axios';
 import type { AxiosResponse } from 'axios';
+import { jwtDecode } from 'jwt-decode';
+
+type Claims = { sub: string; role?: 'admin' | 'user'; [k: string]: any };
 
 interface resLogin extends AxiosResponse {
   data: {access_token: string, token_type: string}
@@ -30,7 +33,13 @@ const authProvider: AuthProvider = {
     return token ? Promise.resolve() : Promise.reject();
   },
   checkError: () => Promise.resolve(),
-  getPermissions: () => Promise.resolve(),
+  // 권한 값 반환
+  async getPermissions() {
+    const t = localStorage.getItem("token");
+    if (!t) return 'guest';
+    const { roles } = jwtDecode<Claims>(t);
+    return roles.some((role: any) => role === "admin") ? "admin" : "user"
+  },
   getIdentity: () => {
     const email = useAuthStore.getState().email;
     return Promise.resolve({ id: email || '', fullName: email || '' });

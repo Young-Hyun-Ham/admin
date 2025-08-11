@@ -8,8 +8,13 @@ from ..rag_service import search_similar_docs
 from ..models import Conversation
 from ..database import get_session
 import traceback
+from backend.utils.jwt import verify_token
 
-router = APIRouter(prefix="/chat/stream", tags=["chat"])
+router = APIRouter(
+    prefix="/chat/stream",
+    tags=["chat"],
+    dependencies=[Depends(verify_token)] # /chat/stream/** 들어오는 모든 엔드포인트에 JWT 인증 적용
+    )
 
 @router.post("/")
 async def chat_stream(req: ChatStreamRequest, db: AsyncSession = Depends(get_session)):
