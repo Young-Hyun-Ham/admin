@@ -3,15 +3,13 @@
 import { Box, Paper, Typography } from '@mui/material';
 import type { ChatMessage } from '../types';
 
-type Props = {
-  messages: ChatMessage[];
-};
+type Props = { messages: ChatMessage[] };
 
 export default function ChatMessages({ messages }: Props) {
   return (
-    <Box sx={{ p: 2, height: 'calc(100vh - 240px)', overflowY: 'auto' }}>
+    <Box>
       {messages.map(m => (
-        <Box key={m.id} sx={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start', mb: 1.5 }}>
+        <Box key={m.id} sx={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start', mb: 0 }}>
           <Paper
             elevation={1}
             sx={{
@@ -20,7 +18,7 @@ export default function ChatMessages({ messages }: Props) {
               bgcolor: m.role === 'user' ? 'primary.main' : 'background.paper',
               color: m.role === 'user' ? 'primary.contrastText' : 'text.primary',
               whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word'
+              wordBreak: 'break-word',
             }}
           >
             <Typography variant="body2">{m.content}</Typography>
