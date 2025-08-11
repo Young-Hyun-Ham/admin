@@ -9,9 +9,9 @@ from ..models import Conversation
 from ..database import get_session
 import traceback
 
-router = APIRouter()
+router = APIRouter(prefix="/chat/stream", tags=["chat"])
 
-@router.post("/chat/stream")
+@router.post("/")
 async def chat_stream(req: ChatStreamRequest, db: AsyncSession = Depends(get_session)):
     async def event_generator():
         assistant_reply = ""

@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardHeader } from '@mui/material';
-import { Title } from 'react-admin';
+import { Title, Authenticated } from 'react-admin';
 import { useMemo, useRef, useState } from 'react';
 import type { ChatMessage } from '../types';
 import ChatMessages from '../components/ChatMessages';
@@ -66,7 +66,7 @@ export default function ChatPage() {
   };
 
   return (
-    <>
+    <Authenticated>
       <Title title="GPT-4o-mini Chat" />
       <Card sx={{ 
         height: 'calc(100vh - 64px)',
@@ -112,6 +112,6 @@ export default function ChatPage() {
             
         </CardContent>
       </Card>
-    </>
+    </Authenticated>
   );
 }

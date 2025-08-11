@@ -1,7 +1,7 @@
 // src/admin/components/ChatInput.tsx
 
 // 1. react에서 'forwardRef'를 추가로 import 합니다.
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Box, TextField, IconButton, useTheme } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -20,6 +20,11 @@ const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(({ onSend, disabled }
   const [text, setText] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const theme = useTheme();
+
+  useEffect(()=> {
+    // 초기 input box 포커스
+    inputRef.current?.focus();
+  }, []);
 
   const handleSend = () => {
     if (text.trim()) {
