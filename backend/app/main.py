@@ -1,10 +1,10 @@
 # backend/app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import docs as docs_router
-from .routes import chat as chat_router
-from .database import lifespan_db
-from .config import get_settings
+from routes import docs as docs_router
+from routes import chat as chat_router
+from database import lifespan_db
+from config import get_settings
 
 settings = get_settings()
 

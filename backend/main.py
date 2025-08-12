@@ -1,12 +1,8 @@
-from backend import logger
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-from backend.routers.v1 import auth
 from dotenv import load_dotenv
-from backend.routers.v1 import v1_routers
+from routers.v1 import v1_routers
 import os
-
-logger.info("FastAPI 서버 시작됨")
 
 # .env 파일 로드
 load_dotenv()

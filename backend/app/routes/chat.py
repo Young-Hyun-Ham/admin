@@ -8,7 +8,7 @@ from ..rag_service import search_similar_docs
 from ..models import Conversation
 from ..database import get_session
 import traceback
-from backend.utils.jwt import verify_token
+from utils.jwt import verify_token
 
 router = APIRouter(
     prefix="/chat/stream",

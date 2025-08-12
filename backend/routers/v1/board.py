@@ -4,8 +4,8 @@ from sqlalchemy.future import select
 from typing import Any, Dict
 import json
 
-from backend.models.board import Board
-from backend.database import get_db
+from models.board import Board
+from database import get_db
 
 router = APIRouter(
     prefix="/api/board",

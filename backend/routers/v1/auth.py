@@ -6,9 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from passlib.context import CryptContext
 
-from backend.database import get_db
-from backend.models.user import User
-from backend import SessionLocal, create_access_token
+from database import get_db
+from models.user import User
+from utils.jwt import create_access_token
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
